@@ -1,10 +1,8 @@
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,11 +16,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
- *
  * @author oXCToo
  */
-public class Controller implements Initializable {
+public class SignIn implements Initializable {
 
+    @FXML
+    public Button btnSignup;
     @FXML
     private Label lblErrors;
 
@@ -35,34 +34,45 @@ public class Controller implements Initializable {
     @FXML
     private Button btnSignin;
 
-    /// --
     Connection con = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
 
     @FXML
     public void handleButtonAction(MouseEvent event) {
-
         if (event.getSource() == btnSignin) {
-            //login here
+            //neu an dang nhap
             if (logIn().equals("Success")) {
                 try {
-
-                    //add you loading or delays - ;-)
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
-                    //stage.setMaximized(true);
                     stage.close();
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/OnBoard.fxml")));
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/InApp.fxml")));
                     stage.setScene(scene);
                     stage.show();
-
                 } catch (IOException ex) {
                     System.err.println(ex.getMessage());
                 }
 
             }
         }
+    }
+
+    public static Connection connection() {
+        //tra ve ket noi
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/btlcsdl", "root", "88888888");
+            return con;
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.err.println("ConnectionUtil : " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public SignIn() {
+        //khoi tao ket noi
+        con = connection();
     }
 
     @Override
@@ -77,18 +87,17 @@ public class Controller implements Initializable {
         }
     }
 
-
-    //we gonna use string to check for status
+    //kiem tra trang thai dang nhap
     private String logIn() {
         String status = "Success";
         String email = txtUsername.getText();
         String password = txtPassword.getText();
-        if(email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             setLblError(Color.TOMATO, "Empty credentials");
             status = "Error";
         } else {
             //query
-            String sql = "SELECT * FROM admins Where email = ? and password = ?";
+            String sql = "SELECT * FROM userLogin Where email = ? and password = ?";
             try {
                 preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setString(1, email);
@@ -113,5 +122,14 @@ public class Controller implements Initializable {
         lblErrors.setTextFill(color);
         lblErrors.setText(text);
         System.out.println(text);
+    }
+
+    public void SigningUp(MouseEvent mouseEvent) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/SignUp.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
     }
 }
