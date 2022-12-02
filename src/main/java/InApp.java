@@ -1,62 +1,27 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class InApp implements Initializable {
-
-    @FXML
-    private TableColumn<?, ?> Id;
-
-    @FXML
-    private TableColumn<?, ?> Name;
-
-    @FXML
-    private Button cartbut;
-
-    @FXML
-    private Button productBut;
-
-    @FXML
-    private Button profileBut;
-
-    @FXML
-    private TextField searchFiled;
-
-    @FXML
-    private TableView<?> tableView;
-
-    @FXML
-    void searchBar(ActionEvent event) {
-
-    }
-
-    @FXML
-    void seeCart(ActionEvent event) {
-
-    }
-
-    @FXML
-    void seeProducts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void seeProfile(ActionEvent event) {
-
-    }
-
-    @FXML
-    void textView(MouseEvent event) {
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

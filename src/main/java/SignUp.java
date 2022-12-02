@@ -1,17 +1,12 @@
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -51,17 +46,19 @@ public class SignUp implements Initializable {
 
     private String TrySignUp() {
         String status = "Success";
-        String email = txtUsername.getText();
+        String username = txtUsername.getText();
+        String email = txtEmail.getText();
         String password = txtPassword.getText();
-        if (email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
             status = "Error";
         } else {
             //query
-            String sql = "INSERT INTO userLogin(email,password) VALUES (?,?)";
+            String sql = "INSERT INTO userLogin(username,email,password) VALUES (?,?,?)";
             try {
                 PreparedStatement preparedStatement = con1.prepareStatement(sql);
-                preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
+                preparedStatement.setString(2, username);
+                preparedStatement.setString(2, email);
+                preparedStatement.setString(3, password);
                 preparedStatement.execute();
             } catch (SQLException ex) {
                 System.err.println(ex.getMessage());

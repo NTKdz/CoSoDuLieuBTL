@@ -47,7 +47,7 @@ public class SignIn implements Initializable {
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
                     stage.close();
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/InApp.fxml")));
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/customer.fxml")));
                     stage.setScene(scene);
                     stage.show();
                 } catch (IOException ex) {
@@ -62,8 +62,7 @@ public class SignIn implements Initializable {
         //tra ve ket noi
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/btlcsdl", "root", "88888888");
-            return con;
+            return DriverManager.getConnection("jdbc:mysql://localhost/btlcsdl", "root", "88888888");
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println("ConnectionUtil : " + ex.getMessage());
             return null;
@@ -97,11 +96,12 @@ public class SignIn implements Initializable {
             status = "Error";
         } else {
             //query
-            String sql = "SELECT * FROM userLogin Where email = ? and password = ?";
+            String sql = "SELECT * FROM userLogin Where ( email = ? or username = ? ) and password = ?";
             try {
                 preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
+                preparedStatement.setString(2,email);
+                preparedStatement.setString(3, password);
                 resultSet = preparedStatement.executeQuery();
                 if (!resultSet.next()) {
                     setLblError(Color.TOMATO, "Enter Correct Email/Password");
@@ -126,7 +126,7 @@ public class SignIn implements Initializable {
 
     public void SigningUp(MouseEvent mouseEvent) throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/SignUp.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/customer.customer.SignUp.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
