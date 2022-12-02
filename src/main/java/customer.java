@@ -155,7 +155,6 @@ public class customer implements Initializable {
         try {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/NewProducts.fxml"));
-
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Hello!");
             stage.setScene(scene);

@@ -15,42 +15,33 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class MyCart implements Initializable {
+public class MyProducts implements Initializable {
     @FXML
-    private Button back;
-
+    private TableColumn<Products, Integer> quantity;
     @FXML
-    private TableColumn<Products, String> cartcategory;
-
+    private TableColumn<Products, String> category;
     @FXML
-    private TableColumn<Products, Integer> cartid;
-
+    private TableColumn<Products, Integer> id;
     @FXML
-    private TableColumn<Products, String> cartname;
-
+    private TableColumn<Products, String> name;
     @FXML
-    private TableColumn<Products, Double> cartprice;
-
-    @FXML
-    private TableColumn<Products, Integer> cartquantity;
-
+    private TableColumn<Products, Double> price;
     @FXML
     private TableView<Products> table;
 
+    ResultSet resultSet1 = null;
     Connection con1 = SignIn.connection();
 
-    ObservableList<Products> cartlist = FXCollections.observableArrayList();
-
-    ResultSet resultSet1 = null;
+    ObservableList<Products> productlist = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cartid.setCellValueFactory(new PropertyValueFactory<>("id"));
-        cartname.setCellValueFactory(new PropertyValueFactory<>("name"));
-        cartquantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        cartprice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        cartcategory.setCellValueFactory(new PropertyValueFactory<>("category"));
-        TableColumn tableColumn = new TableColumn<>("Actions");
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        category.setCellValueFactory(new PropertyValueFactory<>("category"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        TableColumn tableColumn = new TableColumn<>("check");
         Callback<TableColumn<Products, Void>, TableCell<Products, Void>> cellFactory = new Callback<>() {
 
             @Override
@@ -95,8 +86,9 @@ public class MyCart implements Initializable {
         table.getColumns().add(tableColumn);
         refreshtable();
     }
+
     public void refreshtable() {
-        cartlist.clear();
+        productlist.clear();
         try {
             resultSet1 = con1.createStatement().executeQuery("select *from products");
             while (resultSet1.next()) {
@@ -105,13 +97,11 @@ public class MyCart implements Initializable {
                 String category = resultSet1.getString(3);
                 int quantity = resultSet1.getInt(4);
                 double price = resultSet1.getDouble(5);
-                cartlist.add(new Products(id, name, category, quantity, price));
+                productlist.add(new Products(id, name, category, quantity, price));
             }
-            table.setItems(cartlist);
+            table.setItems(productlist);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }
