@@ -7,15 +7,22 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App extends Application {
-    private static final customer Customer = new customer();
-    public static customer getApp() {
-        return Customer;
+    private static final seller SELLER = new seller();
+
+    public static seller getSeller() {
+        return SELLER;
+    }
+
+    private static final SignIn user = new SignIn();
+
+    public static SignIn getUser() {
+        return user;
     }
 
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/customer/MyProducts.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/seller/seller.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("css/Mycss.css").toExternalForm());
         stage.setTitle("Hello!");
@@ -25,9 +32,9 @@ public class App extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if (customer.checkpress) {
-                    getApp().refreshtable();
-                    customer.checkpress = false;
+                if (seller.checkpress) {
+                    seller.checkpress = false;
+                    getSeller().refreshtable();
                 }
             }
         };

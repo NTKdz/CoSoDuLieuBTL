@@ -34,6 +34,9 @@ public class SignIn implements Initializable {
     @FXML
     private Button btnSignin;
 
+    public static int id ;
+    public static int role = 0;
+
     Connection con = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
@@ -47,8 +50,13 @@ public class SignIn implements Initializable {
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
                     stage.close();
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/customer.fxml")));
-                    stage.setScene(scene);
+                    if (role == 0) {
+                        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/OnBoard.fxml")));
+                        stage.setScene(scene);
+                    } else {
+                        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/admin/admin.fxml")));
+                        stage.setScene(scene);
+                    }
                     stage.show();
                 } catch (IOException ex) {
                     System.err.println(ex.getMessage());
@@ -96,17 +104,19 @@ public class SignIn implements Initializable {
             status = "Error";
         } else {
             //query
-            String sql = "SELECT * FROM userLogin Where ( email = ? or username = ? ) and password = ?";
+            String sql = "SELECT * FROM users Where ( email = ? or username = ? ) and password = ?";
             try {
                 preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setString(1, email);
-                preparedStatement.setString(2,email);
+                preparedStatement.setString(2, email);
                 preparedStatement.setString(3, password);
                 resultSet = preparedStatement.executeQuery();
                 if (!resultSet.next()) {
                     setLblError(Color.TOMATO, "Enter Correct Email/Password");
                     status = "Error";
                 } else {
+                    id = resultSet.getInt(1);
+                    role = resultSet.getInt(5);
                     setLblError(Color.GREEN, "Login Successful..Redirecting..");
                 }
             } catch (SQLException ex) {
@@ -126,7 +136,7 @@ public class SignIn implements Initializable {
 
     public void SigningUp(MouseEvent mouseEvent) throws IOException {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/customer.customer.SignUp.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/SignUp.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);

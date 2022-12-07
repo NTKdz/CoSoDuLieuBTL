@@ -12,19 +12,19 @@
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0">
          <children>
-            <Button layoutX="697.0" layoutY="526.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="182.0" text="CHECKOUT">
+            <Button fx:id="checkout" layoutX="697.0" layoutY="526.0" mnemonicParsing="false" onAction="#checkout" prefHeight="60.0" prefWidth="182.0" text="CHECKOUT">
                <font>
                   <Font name="Cambria Bold" size="20.0" />
                </font>
             </Button>
             <Pane prefHeight="100.0" prefWidth="900.0" styleClass="temp" stylesheets="">
                <children>
-                  <Label layoutX="48.0" layoutY="10.0" text="Shopping cart">
+                  <Label layoutX="103.0" layoutY="10.0" text="Shopping cart">
                      <font>
                         <Font name="Cambria Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Button fx:id="back" layoutX="19.0" layoutY="12.0" mnemonicParsing="false" styleClass="transparent" stylesheets="" />
+                  <Button fx:id="back" layoutX="19.0" layoutY="12.0" mnemonicParsing="false" onAction="#back" styleClass="transparent" stylesheets="" text="back" />
                </children>
             </Pane>
          </children>
